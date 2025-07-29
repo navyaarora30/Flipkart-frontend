@@ -48,6 +48,17 @@ function Cart() {
 
         // ✅ Fetch all products
         const prodRes = await fetch(`${BACKEND_URL}/api/products`);
+        const contentType = prodRes.headers.get("content-type");
+
+        if (!contentType || !contentType.includes("application/json")) {
+          const htmlText = await prodRes.text();
+          console.error(
+            "❌ Expected JSON, but got HTML:\n",
+            htmlText.slice(0, 300)
+          );
+          throw new Error("Invalid JSON response from /api/products");
+        }
+
         const productsResponse = await prodRes.json();
 
         // ✅ Handle different product response formats
