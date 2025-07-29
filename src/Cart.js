@@ -50,13 +50,12 @@ function Cart() {
         const prodRes = await fetch(`${BACKEND_URL}/api/products`);
         const productsResponse = await prodRes.json();
 
+        // ✅ Handle different product response formats
         let allProducts = [];
         if (Array.isArray(productsResponse)) {
-          productsResponse.forEach((doc) => {
-            if (Array.isArray(doc.products)) {
-              allProducts = allProducts.concat(doc.products);
-            }
-          });
+          allProducts = productsResponse;
+        } else if (Array.isArray(productsResponse.data)) {
+          allProducts = productsResponse.data;
         }
 
         // ✅ Merge cart items with product details
@@ -125,7 +124,6 @@ function Cart() {
   return (
     <div className="bg-white min-h-screen py-8">
       <div className="max-w-6xl mx-auto flex flex-col md:flex-row gap-6">
-        {/* Left: Cart Items */}
         <div className="flex-1">
           <div className="bg-white rounded shadow p-4 mb-4 flex items-center justify-between">
             <span>
