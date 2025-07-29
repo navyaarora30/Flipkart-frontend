@@ -5,7 +5,8 @@ function Cart() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  const userId = localStorage.getItem("userId") || "2"; // Replace with dynamic user session later
+  const userId = localStorage.getItem("userId") || "2";
+  const BACKEND_URL = "https://flipkart-backend-74av.onrender.com";
 
   const deliveryAddress = {
     location: "Sample address",
@@ -17,18 +18,14 @@ function Cart() {
       setError(null);
       try {
         // ✅ Fetch all carts
-        const cartRes = await fetch(
-          "https://flipkart-backend-74av.onrender.com/carts"
-        );
+        const cartRes = await fetch(`${BACKEND_URL}/api/carts`);
         const cartData = await cartRes.json();
         if (!cartData.success) throw new Error("Failed to fetch carts");
 
-        // ✅ Filter user's carts
         const userCarts = Array.isArray(cartData.data)
           ? cartData.data.filter((c) => c.userId === userId)
           : [];
 
-        // ✅ Flatten and combine items by productId
         let cartItemsRaw = [];
         userCarts.forEach((cart) => {
           if (Array.isArray(cart.items)) {
@@ -50,9 +47,7 @@ function Cart() {
         const combinedCartItemsRaw = Object.values(combinedItemsMap);
 
         // ✅ Fetch all products
-        const prodRes = await fetch(
-          "https://flipkart-backend-74av.onrender.com/products"
-        );
+        const prodRes = await fetch(`${BACKEND_URL}/api/products`);
         const productsResponse = await prodRes.json();
 
         let allProducts = [];
