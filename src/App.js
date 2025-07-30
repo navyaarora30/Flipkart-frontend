@@ -16,7 +16,7 @@ import Profile from "./Profile";
 import Carousel from "./Carousal";
 import Cart from "./Cart";
 
-// Authentication Wrapper
+// ✅ Auth wrapper
 function RequireAuth({ children }) {
   const location = useLocation();
   const token = localStorage.getItem("token");
@@ -203,10 +203,11 @@ function App() {
     fetch("https://flipkart-backend-74av.onrender.com/api/products")
       .then((res) => res.json())
       .then((data) => {
+        // ✅ Fix: Extract data correctly
         if (Array.isArray(data.data)) {
           setProducts(data.data);
         } else {
-          console.error("Products response not array:", data);
+          console.error("Unexpected response structure:", data);
         }
       })
       .catch((err) => console.error("Failed to load products:", err));
