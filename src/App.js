@@ -137,9 +137,9 @@ function AppContent({ products }) {
                                         "Content-Type": "application/json",
                                       },
                                       body: JSON.stringify({
-                                        productId: product._id,
+                                        productId: product.id,
                                         quantity: 1,
-                                        user: userId,
+                                        userId,
                                       }),
                                     }
                                   )
@@ -164,9 +164,9 @@ function AppContent({ products }) {
                                         "Content-Type": "application/json",
                                       },
                                       body: JSON.stringify({
-                                        productId: product._id,
+                                        productId: product.id,
                                         quantity: 1,
-                                        user: userId,
+                                        userId,
                                       }),
                                     }
                                   )
@@ -200,13 +200,13 @@ function App() {
   const [products, setProducts] = useState([]);
 
   useEffect(() => {
-    fetch("https://flipkart-backend-74av.onrender.com/api/products")
+    fetch("https://flipkart-backend-74av.onrender.com/api/products") // ✅ Use working backend
       .then((res) => res.json())
       .then((data) => {
-        if (Array.isArray(data.data)) {
-          setProducts(data.data);
+        if (Array.isArray(data)) {
+          setProducts(data);
         } else {
-          console.error("Products response not in expected format:", data);
+          console.error("Products response not array:", data);
         }
       })
       .catch((err) => console.error("Failed to load products:", err));
