@@ -16,7 +16,7 @@ import Profile from "./Profile";
 import Carousel from "./Carousal";
 import Cart from "./Cart";
 
-// Authentication Wrapper
+// ✅ Auth Wrapper
 function RequireAuth({ children }) {
   const location = useLocation();
   const token = localStorage.getItem("token");
@@ -130,7 +130,7 @@ function AppContent({ products }) {
                                 onClick={() => {
                                   const userId = localStorage.getItem("userId");
                                   fetch(
-                                    `https://flipkart-backend-74av.onrender.com/api/cart/add`,
+                                    `https://5mdd2v-8080.csb.app/api/cart/add`,
                                     {
                                       method: "POST",
                                       headers: {
@@ -139,7 +139,7 @@ function AppContent({ products }) {
                                       body: JSON.stringify({
                                         productId: product.id,
                                         quantity: 1,
-                                        userId,
+                                        user: userId,
                                       }),
                                     }
                                   )
@@ -157,7 +157,7 @@ function AppContent({ products }) {
                                 onClick={() => {
                                   const userId = localStorage.getItem("userId");
                                   fetch(
-                                    `https://flipkart-backend-74av.onrender.com/api/cart/add`,
+                                    `https://5mdd2v-8080.csb.app/api/cart/add`,
                                     {
                                       method: "POST",
                                       headers: {
@@ -166,7 +166,7 @@ function AppContent({ products }) {
                                       body: JSON.stringify({
                                         productId: product.id,
                                         quantity: 1,
-                                        userId,
+                                        user: userId,
                                       }),
                                     }
                                   )
@@ -200,11 +200,12 @@ function App() {
   const [products, setProducts] = useState([]);
 
   useEffect(() => {
-    fetch("https://flipkart-backend-74av.onrender.com/api/products") // ✅ Use working backend
+    fetch("https://5mdd2v-8080.csb.app/api/products")
       .then((res) => res.json())
       .then((data) => {
-        if (Array.isArray(data)) {
-          setProducts(data);
+        // ✅ FIXED: products are inside `data.data`
+        if (Array.isArray(data.data)) {
+          setProducts(data.data);
         } else {
           console.error("Products response not array:", data);
         }
