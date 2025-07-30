@@ -16,7 +16,7 @@ import Profile from "./Profile";
 import Carousel from "./Carousal";
 import Cart from "./Cart";
 
-// ✅ Auth Wrapper
+// Authentication Wrapper
 function RequireAuth({ children }) {
   const location = useLocation();
   const token = localStorage.getItem("token");
@@ -130,7 +130,7 @@ function AppContent({ products }) {
                                 onClick={() => {
                                   const userId = localStorage.getItem("userId");
                                   fetch(
-                                    `https://5mdd2v-8080.csb.app/api/cart/add`,
+                                    `https://flipkart-backend-74av.onrender.com/api/cart/add`,
                                     {
                                       method: "POST",
                                       headers: {
@@ -157,7 +157,7 @@ function AppContent({ products }) {
                                 onClick={() => {
                                   const userId = localStorage.getItem("userId");
                                   fetch(
-                                    `https://5mdd2v-8080.csb.app/api/cart/add`,
+                                    `https://flipkart-backend-74av.onrender.com/api/cart/add`,
                                     {
                                       method: "POST",
                                       headers: {
@@ -200,10 +200,9 @@ function App() {
   const [products, setProducts] = useState([]);
 
   useEffect(() => {
-    fetch("https://5mdd2v-8080.csb.app/api/products")
+    fetch("https://flipkart-backend-74av.onrender.com/api/products")
       .then((res) => res.json())
       .then((data) => {
-        // ✅ FIXED: products are inside `data.data`
         if (Array.isArray(data.data)) {
           setProducts(data.data);
         } else {
