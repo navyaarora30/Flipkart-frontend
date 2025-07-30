@@ -16,7 +16,7 @@ import Profile from "./Profile";
 import Carousel from "./Carousal";
 import Cart from "./Cart";
 
-// ✅ Auth wrapper
+// Authentication Wrapper
 function RequireAuth({ children }) {
   const location = useLocation();
   const token = localStorage.getItem("token");
@@ -28,8 +28,6 @@ function RequireAuth({ children }) {
 
 function AppContent({ products }) {
   const location = useLocation();
-  const chartRef = useRef(null);
-
   const featuredCategories = [
     { value: "smartphones", label: "Smartphones" },
     { value: "laptops", label: "Laptops" },
@@ -203,11 +201,10 @@ function App() {
     fetch("https://flipkart-backend-74av.onrender.com/api/products")
       .then((res) => res.json())
       .then((data) => {
-        // ✅ Fix: Extract data correctly
         if (Array.isArray(data.data)) {
           setProducts(data.data);
         } else {
-          console.error("Unexpected response structure:", data);
+          console.error("Products response not in expected format:", data);
         }
       })
       .catch((err) => console.error("Failed to load products:", err));
