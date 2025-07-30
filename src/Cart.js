@@ -1,4 +1,3 @@
-give me complete correct code
 import { useState, useEffect } from "react";
 
 function Cart() {
